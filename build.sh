@@ -18,7 +18,7 @@ if ! command -v make &>/dev/null && ! command -v ninja &>/dev/null; then
 fi
 
 [ -d assimp ] || {
-    git clone https://github.com/assimp/assimp assimp
+    git clone https://github.com/assimp/assimp --depth=1
     pushd assimp && git apply -3 ../*.patch && popd
 }
 

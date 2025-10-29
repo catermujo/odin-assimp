@@ -17,10 +17,7 @@ if ! command -v make &>/dev/null && ! command -v ninja &>/dev/null; then
     exit 1
 fi
 
-[ -d assimp ] || {
-    git clone https://github.com/assimp/assimp --depth=1
-    pushd assimp && git apply -3 ../*.patch && popd
-}
+[ -d assimp ] || git clone https://github.com/assimp/assimp --depth=1
 
 # Set source and build directories
 SOURCE_DIR="./assimp"
@@ -41,7 +38,8 @@ cmake "$SOURCE_DIR" -S "$SOURCE_DIR" -B "$BINARIES_DIR" \
     -DASSIMP_INSTALL=OFF \
     -DASSIMP_BUILD_USD_IMPORTER=ON \
     -DBUILD_SHARED_LIBS=OFF \
-    -DASSIMP_INSTALL_PDB=OFF
+    -DASSIMP_INSTALL_PDB=OFF \
+    -DASSIMP_WARNINGS_AS_ERRORS=OFF
 
 # Build the project
 echo "Building project..."

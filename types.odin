@@ -505,8 +505,8 @@ TargetRealtime_Quality: Post_Process_Steps : {
     .FindInvalidData,
 }
 
-TargetRealtime_MaxQuality: Post_Process_Steps :
-    TargetRealtime_Quality | {.FindInstances, .ValidateDataStructure, .OptimizeMeshes}
+TargetRealtime_MaxQuality: Post_Process_Steps
+    : TargetRealtime_Quality | {.FindInstances, .ValidateDataStructure, .OptimizeMeshes}
 
 /** @brief Enumerates components of the aiScene and aiMesh data structures
 *  that can be excluded from the import using the #aiProcess_RemoveComponent step.

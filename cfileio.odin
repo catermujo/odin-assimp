@@ -25,8 +25,7 @@ File_Flush_Proc :: proc "c" (_: ^File)
 File_Seek :: proc "c" (_: ^File, _: uint, _: Origin) -> Return
 
 // aiFileIO callbacks
-File_Open_Proc :: struct {
-}
+File_Open_Proc :: struct {}
 
 File_Close_Proc :: proc "c" (_: ^File_IO, _: ^File)
 

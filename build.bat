@@ -2,7 +2,7 @@
 
 setlocal EnableDelayedExpansion
 
-if not exist assimp\NUL (
+if not exist assimp (
 	git clone https://github.com/assimp/assimp --depth=1
 )
 

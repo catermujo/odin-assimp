@@ -17,7 +17,7 @@ if ! command -v make &>/dev/null && ! command -v ninja &>/dev/null; then
     exit 1
 fi
 
-[ -d assimp ] || git clone https://github.com/assimp/assimp --depth=1
+[ -d assimp ] || git clone --revision 95f09deaaed342b5f4ac6aa0eb5ad747c476f78b https://github.com/assimp/assimp --depth=1
 
 # Set source and build directories
 SOURCE_DIR="./assimp"

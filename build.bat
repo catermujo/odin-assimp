@@ -3,7 +3,7 @@
 setlocal EnableDelayedExpansion
 
 if not exist assimp (
-	git clone https://github.com/assimp/assimp --depth=1
+	git clone --revision 95f09deaaed342b5f4ac6aa0eb5ad747c476f78b https://github.com/assimp/assimp --depth=1
 )
 
 set binaries_dir=build

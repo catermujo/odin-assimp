@@ -17,7 +17,23 @@ if ! command -v make &>/dev/null && ! command -v ninja &>/dev/null; then
     exit 1
 fi
 
-[ -d assimp ] || git clone --revision 95f09deaaed342b5f4ac6aa0eb5ad747c476f78b https://github.com/assimp/assimp --depth=1
+clone_at_revision() {
+    local dir="$1"
+    local revision="$2"
+    local remote="$3"
+    shift 3
+    [ -d "$dir" ] && return
+    git clone "$@" "$remote" "$dir"
+    if ! git -C "$dir" checkout --detach "$revision"; then
+        git -C "$dir" fetch origin "$revision"
+        git -C "$dir" checkout --detach FETCH_HEAD
+    fi
+    if [ -f "$dir/.gitmodules" ]; then
+        git -C "$dir" submodule update --init --recursive
+    fi
+}
+
+clone_at_revision assimp 95f09deaaed342b5f4ac6aa0eb5ad747c476f78b https://github.com/assimp/assimp --depth=1
 
 # Set source and build directories
 SOURCE_DIR="./assimp"

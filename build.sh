@@ -35,15 +35,33 @@ clone_at_revision() {
 
 clone_at_revision assimp 95f09deaaed342b5f4ac6aa0eb5ad747c476f78b https://github.com/assimp/assimp --depth=1
 
+linux_arch_dir() {
+    case "$(uname -m)" in
+        x86_64 | amd64) echo "linux_x64" ;;
+        aarch64 | arm64) echo "linux_arm64" ;;
+        *) echo "linux_$(uname -m)" ;;
+    esac
+}
+
+darwin_arch_dir() {
+    case "$(uname -m)" in
+        x86_64 | amd64) echo "darwin_x64" ;;
+        aarch64 | arm64) echo "darwin_arm64" ;;
+        *) echo "darwin_$(uname -m)" ;;
+    esac
+}
+
 # Set source and build directories
 SOURCE_DIR="./assimp"
 BINARIES_DIR="./build"
 if [ $(uname -s) = 'Darwin' ]; then
     NCORE=$(sysctl -n hw.ncpu)
     LIB_EXT=darwin
+    OUTPUT_DIR=$(darwin_arch_dir)
 else
     NCORE=$(nproc)
     LIB_EXT=linux
+    OUTPUT_DIR=$(linux_arch_dir)
 fi
 
 # Configure the build with cmake
@@ -61,6 +79,7 @@ cmake "$SOURCE_DIR" -S "$SOURCE_DIR" -B "$BINARIES_DIR" \
 echo "Building project..."
 cmake --build "$BINARIES_DIR" --config Release -j$NCORE
 
-cp $BINARIES_DIR/lib/libassimp.a libassimp.$LIB_EXT.a
+mkdir -p "$OUTPUT_DIR"
+cp "$BINARIES_DIR/lib/libassimp.a" "$OUTPUT_DIR/libassimp.$LIB_EXT.a"
 
 echo "Build completed successfully!"

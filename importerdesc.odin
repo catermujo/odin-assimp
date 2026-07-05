@@ -5,11 +5,29 @@ import "core:c"
 _ :: c
 
 when ODIN_OS == .Windows {
-    foreign import lib {"vendor:zlib/libz.lib", "libassimp.lib"}
+    when ODIN_ARCH == .amd64 {
+        foreign import lib {"vendor:zlib/libz.lib", "windows_x64/libassimp.lib"}
+    } else when ODIN_ARCH == .arm64 {
+        foreign import lib {"vendor:zlib/libz.lib", "windows_arm64/libassimp.lib"}
+    } else {
+        #panic("vendor/assimp supports windows amd64/arm64 only")
+    }
 } else when ODIN_OS == .Darwin {
-    foreign import lib {"vendor:zlib/libz.lib", "libassimp.darwin.a"}
-} else {
-    foreign import lib {"system:z", "libassimp.linux.a"}
+    when ODIN_ARCH == .amd64 {
+        foreign import lib {"vendor:zlib/libz.lib", "darwin_x64/libassimp.darwin.a"}
+    } else when ODIN_ARCH == .arm64 {
+        foreign import lib {"vendor:zlib/libz.lib", "darwin_arm64/libassimp.darwin.a"}
+    } else {
+        #panic("vendor/assimp supports Darwin amd64/arm64 only")
+    }
+} else when ODIN_OS == .Linux {
+    when ODIN_ARCH == .amd64 {
+        foreign import lib {"system:z", "linux_x64/libassimp.linux.a"}
+    } else when ODIN_ARCH == .arm64 {
+        foreign import lib {"system:z", "linux_arm64/libassimp.linux.a"}
+    } else {
+        #panic("vendor/assimp supports linux amd64/arm64 only")
+    }
 }
 
 
